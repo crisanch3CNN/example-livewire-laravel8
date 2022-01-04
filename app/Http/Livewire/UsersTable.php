@@ -10,10 +10,13 @@ class UsersTable extends Component
 {
     use WithPagination;
 
+    public $search = '';
+
     public function render()
     {
-        return view('livewire.users-table', [
-            'users' => User::paginate(5),
-        ]);
+        $users = User::where('name', $this->search)->paginate(5);
+        // $users = User::paginate(5);
+
+        return view('livewire.users-table', compact('users'));
     }
 }
