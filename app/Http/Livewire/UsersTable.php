@@ -15,7 +15,7 @@ class UsersTable extends Component
     public function render()
     {
         if ($this->search != '') {
-            $users = User::where('name', 'Like', '%' . $this->search . '%')->paginate(5);
+            $users = User::where('name', 'LIKE', "%{$this->search}%")->paginate(5);
         } else {
             $users = User::paginate(5);
         }
