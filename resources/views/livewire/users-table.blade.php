@@ -10,18 +10,30 @@
                 <!-- This example requires Tailwind CSS v2.0+ -->
                 <div class="flex flex-col">
                     <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                        <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                        <div class="py-2 align-middle inline-block w-full sm:px-6 lg:px-8">
                             <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                                <div class="bg-white px-4 py-3 border-t border-gray-200 sm:px-6">
+                                <div class="flex  bg-white px-4 py-3 border-t border-gray-200 sm:px-6">
                                     <input 
                                     wire:model="search"
-                                    type="text" 
+                                    type="search" 
                                     name="search" 
                                     id="search" 
-                                    class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" placeholder="Buscar ...">
+                                    class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" 
+                                    aria-label="Buscar usuarios"
+                                    placeholder="Buscar ...">
+                                    <div class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 ml-6 sm:text-sm border-gray-300 rounded-md">
+                                        <select wire:model="perPage" class="outline-none text-gray-500 text-sm">
+                                            <option value="5">5 por página</option>
+                                            <option value="10">10 por página</option>
+                                            <option value="15">15 por página</option>
+                                            <option value="25">25 por página</option>
+                                            <option value="50">50 por página</option>
+                                            <option value="100">100 por página</option>
+                                        </select>
+                                    </div>
                                 </div>
                                 @if ($users->count())
-                                <table class="min-w-full divide-y divide-gray-200">
+                                <table class="w-full divide-y divide-gray-200">
                                     <thead class="bg-gray-50">
                                         <tr>
                                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -65,7 +77,7 @@
                                 </div>
                                 @else
                                 <div class="bg-white px-4 py-3 border-t border-gray-200 text-gray-500 sm:px-6">
-                                    No hay resultados para la búsqueda "{{ $search}}""
+                                    No hay resultados para la búsqueda "{{ $search}}" en la página {{ $page }} al mostrar {{ $perPage }} por página  
                                 </div>
                                 @endif
                             </div>
