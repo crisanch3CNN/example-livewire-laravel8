@@ -20,6 +20,7 @@
                                     id="search" 
                                     class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" placeholder="Buscar ...">
                                 </div>
+                                @if ($users->count())
                                 <table class="min-w-full divide-y divide-gray-200">
                                     <thead class="bg-gray-50">
                                         <tr>
@@ -62,6 +63,11 @@
                                 <div class="bg-white px-4 py-3 border-t border-gray-200 sm:px-6">
                                 {{ $users->links() }} 
                                 </div>
+                                @else
+                                <div class="bg-white px-4 py-3 border-t border-gray-200 text-gray-500 sm:px-6">
+                                    No hay resultados para la búsqueda "{{ $search}}""
+                                </div>
+                                @endif
                             </div>
                         </div>
                     </div>
