@@ -1,22 +1,52 @@
-name: CICD
-on: [push]
+name: ci workflow
+on:  
+  push:
+    branches:
+      - develop
+  pull_request:
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
+    # services:
+    #       mysql:
+    #         image: mysql:8.0
+    #         env:
+    #           MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+    #           MYSQL_DATABASE: '${DB_PASSWORD}'
+    #         ports:
+    #           - 33306:3306
+    #         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
     steps:
-      - uses: actions/checkout@v1
-      - name: Run composer install
-        run: composer install -n --prefer-dist
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      - name: Prepare Laravel Application
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8'
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, gd
+          coverage: none
+
+      - name: Install dependencies
+        run: composer install --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
+
+      - name: Copy .env.example file
+        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+
+      - name: Generate key
+        run: php artisan key:generate
+
+      - name: Run Migrations
         run: |
-          cp .env.example .env
-          php artisan key:generate
+          php artisan migrate --seed
 
-      - name: Run yarn
-        run: yarn && yarn dev
+      - name: Install front-end dependencies
+        run: |
+          npm install
+          npm run dev
 
       - name: Run tests
         run: php artisan test
