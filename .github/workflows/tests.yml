@@ -60,7 +60,7 @@ jobs:
         run: sudo systemctl start mysql
 
       - name: Install dependencies
-        run: composer install --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
+        run: composer install --no-ansi --no-interaction --no-scripts  --no-progress --prefer-dist
 
       - name: Copy .env.example file
         run: php -r "file_exists('.env') || copy('.env.example', '.env');"
