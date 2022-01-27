@@ -1,26 +1,23 @@
-name: Testing App Laravel 
+name: Testing App Laravel
 
-on:  
+on:
   push:
-    branches:
-      [ develop ]
+    branches: [develop]
   pull_request:
-    branches:
-      [ develop ]
+    branches: [develop]
 
 jobs:
-
   laravel-tests:
-    name: Testing App Laravel 
+    name: Testing App Laravel
     runs-on: ubuntu-latest
     env:
-        DB_DATABASE: laravel
-        DB_USERNAME: root
-        DB_PASSWORD: password
-        BROADCAST_DRIVER: log
-        CACHE_DRIVER: redis
-        QUEUE_CONNECTION: redis
-        SESSION_DRIVER: redis        
+      DB_DATABASE: laravel
+      DB_USERNAME: root
+      DB_PASSWORD: password
+      BROADCAST_DRIVER: log
+      CACHE_DRIVER: redis
+      QUEUE_CONNECTION: redis
+      SESSION_DRIVER: redis
     services:
       mysql:
         image: mysql:latest
@@ -51,7 +48,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.0'
+          php-version: "8.0"
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, gd
           coverage: none
           tools: composer:v2
@@ -60,7 +57,8 @@ jobs:
         run: sudo systemctl start mysql
 
       - name: Install dependencies
-        run: composer install --no-ansi --no-interaction --no-scripts  --no-progress --prefer-dist
+        # run: composer install --no-ansi --no-interaction --no-scripts  --no-progress --prefer-dist
+        run: composer install --ignore-platform-reqs
 
       - name: Copy .env.example file
         run: php -r "file_exists('.env') || copy('.env.example', '.env');"
@@ -69,7 +67,7 @@ jobs:
         run: php artisan key:generate
 
       - name: Clear Config
-        run: php artisan config:clear        
+        run: php artisan config:clear
 
       - name: Run Migrations
         run: |
@@ -98,12 +96,11 @@ jobs:
           # Whether or not to use Psalm’s security analysis
           security_analysis: # optional
           # File for Psalm’s output
-          report_file: # optional, default is 
+          report_file: # optional, default is
           # Whether or not Composer installs dev packages
           composer_require_dev: # optional
           # Whether or not the --ignore-platform-reqs flag is passed to Composer
           composer_ignore_platform_reqs: # optional
-
 
       - name: Upload artifacts
         uses: actions/upload-artifact@master
