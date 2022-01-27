@@ -57,8 +57,7 @@ jobs:
         run: sudo systemctl start mysql
 
       - name: Install dependencies
-        # run: composer install --no-ansi --no-interaction --no-scripts  --no-progress --prefer-dist
-        run: composer install --ignore-platform-reqs
+        run: composer install --no-ansi --no-interaction --no-scripts  --no-progress --prefer-dist
 
       - name: Copy .env.example file
         run: php -r "file_exists('.env') || copy('.env.example', '.env');"
@@ -96,11 +95,6 @@ jobs:
           # Whether or not to use Psalm’s security analysis
           security_analysis: # optional
           # File for Psalm’s output
-          report_file: # optional, default is
-          # Whether or not Composer installs dev packages
-          composer_require_dev: # optional
-          # Whether or not the --ignore-platform-reqs flag is passed to Composer
-          composer_ignore_platform_reqs: # optional
 
       - name: Upload artifacts
         uses: actions/upload-artifact@master
