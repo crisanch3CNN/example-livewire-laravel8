@@ -1,4 +1,4 @@
-name: Testing App Laravel
+name: Testing App Laravel 1
 
 on:
   push:
